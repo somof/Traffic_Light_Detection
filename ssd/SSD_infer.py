@@ -58,8 +58,7 @@ num_val = len(val_keys)
 
 model = SSD300(input_shape, num_classes=NUM_CLASSES)
 # Traceback (most recent call last):
-model.load_weights('weights.00-00.11.hdf5', by_name=True)
-model.load_weights('weights.01-128.23.hdf5', by_name=True)
+model.load_weights('weights.09-86.78.hdf5', by_name=True)
 freeze = ['input_1', 'conv1_1', 'conv1_2', 'pool1',
           'conv2_1', 'conv2_2', 'pool2',
           'conv3_1', 'conv3_2', 'conv3_3', 'pool3']
