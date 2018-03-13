@@ -43,15 +43,11 @@ input_shape = (300, 300, 3)
 priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
-#gt = pickle.load(open('gt_pascal.pkl', 'rb'))
-#gt = pickle.load(open('VOC2007.p', 'rb'))
-#gt = pickle.load(open('TLD201803-4.p', 'rb'))
 with open('TLD201803-4.p', 'rb') as f:
    u = pickle._Unpickler(f)
    u.encoding = 'latin1'
    gt = u.load()
 
-#from list import keys
 keys = sorted(gt.keys())
 num_train = int(round(0.8 * len(keys)))
 train_keys = keys[:num_train]
@@ -62,8 +58,6 @@ num_val = len(val_keys)
 
 model = SSD300(input_shape, num_classes=NUM_CLASSES)
 # Traceback (most recent call last):
-#model.load_weights('weights_SSD300.hdf5', by_name=True)
-#model.load_weights('checkpoints/weights.10-0.00.hdf5', by_name=True)
 model.load_weights('weights.00-00.11.hdf5', by_name=True)
 model.load_weights('weights.01-128.23.hdf5', by_name=True)
 freeze = ['input_1', 'conv1_1', 'conv1_2', 'pool1',
@@ -78,7 +72,7 @@ for L in model.layers:
 
 inputs = []
 images = []
-path_prefix = '../../Pictures/color/'
+path_prefix = 'images/'
 img_path = path_prefix + sorted(val_keys)[1]
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
@@ -86,27 +80,27 @@ images.append(imread(img_path))
 inputs.append(img.copy())
 
 
-img_path = '../../Pictures/color/frame000000.png'
+img_path = 'images/frame000000.png'
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
 images.append(imread(img_path))
 inputs.append(img.copy())
-img_path = '../../Pictures/color/frame000010.png'
+img_path = 'images/frame000010.png'
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
 images.append(imread(img_path))
 inputs.append(img.copy())
-img_path = '../../Pictures/color/frame000020.png'
+img_path = 'images/frame000020.png'
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
 images.append(imread(img_path))
 inputs.append(img.copy())
-img_path = '../../Pictures/color/frame000100.png'
+img_path = 'images/frame000100.png'
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
 images.append(imread(img_path))
 inputs.append(img.copy())
-img_path = '../../Pictures/color/frame000300.png'
+img_path = 'images/frame000300.png'
 img = image.load_img(img_path, target_size=(300, 300))
 img = image.img_to_array(img)
 images.append(imread(img_path))
@@ -116,8 +110,6 @@ inputs.append(img.copy())
 inputs = preprocess_input(np.array(inputs))
 preds = model.predict(inputs, batch_size=1, verbose=1)
 results = bbox_util.detection_out(preds)
-
-# print('result ', results)
 
 for i, img in enumerate(images):
     # Parse the outputs.

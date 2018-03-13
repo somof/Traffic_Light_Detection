@@ -43,15 +43,11 @@ input_shape = (300, 300, 3)
 priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
-#gt = pickle.load(open('gt_pascal.pkl', 'rb'))
-#gt = pickle.load(open('VOC2007.p', 'rb'))
-#gt = pickle.load(open('TLD201803-4.p', 'rb'))
 with open('TLD201803-4.p', 'rb') as f:
    u = pickle._Unpickler(f)
    u.encoding = 'latin1'
    gt = u.load()
 
-#from list import keys
 keys = sorted(gt.keys())
 num_train = int(round(0.8 * len(keys)))
 train_keys = keys[:num_train]
@@ -254,7 +250,6 @@ gen = Generator(gt, bbox_util, 16, path_prefix,
 model = SSD300(input_shape, num_classes=NUM_CLASSES)
 # Traceback (most recent call last):
 model.load_weights('weights_SSD300.hdf5', by_name=True)
-# model.load_weights('checkpoints/weights.01-0.00.hdf5', by_name=True)
 
 freeze = ['input_1', 'conv1_1', 'conv1_2', 'pool1',
           'conv2_1', 'conv2_2', 'pool2',

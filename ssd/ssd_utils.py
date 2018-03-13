@@ -109,21 +109,7 @@ class BBoxUtility(object):
         encoded_box[:, :2][assign_mask] = box_center - assigned_priors_center
         encoded_box[:, :2][assign_mask] /= assigned_priors_wh
         encoded_box[:, :2][assign_mask] /= assigned_priors[:, -4:-2]
-
-        #print('box_wh             ', box_wh)
-        #print('assigned_priors_wh ', assigned_priors_wh)
-
         encoded_box[:, 2:4][assign_mask] = np.log(box_wh / assigned_priors_wh)
-
-        # ('box_wh             ', array([-0.41447368, -0.27281022]))
-        # ('assigned_priors_wh ', array([[ 0.06315789,  0.06315789]], dtype=float32))
-
-        # ssd_utils.py:112: RuntimeWarning: invalid value encountered in log
-        # encoded_box[:, 2:4][assign_mask] = np.log(box_wh / (assigned_priors_wh + 1e-7))
-        # print('check ', box_wh / assigned_priors_wh)
-        #  ('check ', array([[-6.48148159, -3.91499398]]))
-        #  ('check ', array([[-6.87500011, -4.24726284]]))
-
         encoded_box[:, 2:4][assign_mask] /= assigned_priors[:, -2:]
         return encoded_box.ravel()
 
@@ -157,15 +143,7 @@ class BBoxUtility(object):
         assignment[:, :4][best_iou_mask] = encoded_boxes[best_iou_idx,
                                                          np.arange(assign_num),
                                                          :4]
-        #print('assignment shape ', assignment.shape)
-        #print('assignment[]     ', assignment[0])
-        #print('best_iou_mask    ', best_iou_mask.shape, best_iou_mask)
-        #print('best_iou_idx     ', best_iou_idx)
-        #print('uke[]            ', assignment[:, 5:-8][best_iou_mask].shape, assignment[:, 5:-8][best_iou_mask])
-        #print('boxes[]          ', boxes[best_iou_idx, 4: 4 + self.num_classes - 1].shape, boxes[best_iou_idx, 4: 4 + self.num_classes - 1])
-
         assignment[:, 4][best_iou_mask] = 0
-        #assignment[:, 5:-8][best_iou_mask] = boxes[best_iou_idx, 4:]  # error
         assignment[:, 5:-8][best_iou_mask] = boxes[best_iou_idx, 4: 4 + self.num_classes - 1]
         assignment[:, -8][best_iou_mask] = 1
         return assignment
@@ -191,7 +169,6 @@ class BBoxUtility(object):
         decode_bbox_center_y += prior_center_y
         decode_bbox_width = np.exp(mbox_loc[:, 2] * variances[:, 2])
         decode_bbox_width *= prior_width
-        #print('err ', mbox_loc[:, 3] * variances[:, 3])
         decode_bbox_height = np.exp(mbox_loc[:, 3] * variances[:, 3])
         decode_bbox_height *= prior_height
         decode_bbox_xmin = decode_bbox_center_x - 0.5 * decode_bbox_width
