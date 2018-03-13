@@ -53,15 +53,15 @@ with open('TLD201803-4.p', 'rb') as f:
 
 #from list import keys
 keys = sorted(gt.keys())
-#num_train = int(round(0.8 * len(keys)))
-#train_keys = keys[:num_train]
-#val_keys = keys[num_train:]
-#num_val = len(val_keys)
-
-num_train = 10
-num_val = 10
+num_train = int(round(0.8 * len(keys)))
 train_keys = keys[:num_train]
-val_keys = keys[num_train:num_train + num_val]
+val_keys = keys[num_train:]
+num_val = len(val_keys)
+
+#num_train = 2
+#num_val = 2
+#train_keys = keys[:num_train]
+#val_keys = keys[num_train:num_train + num_val]
 
 
 
@@ -246,7 +246,7 @@ class Generator(object):
                     yield preprocess_input(tmp_inp), tmp_targets
 
 
-path_prefix = '../Pictures/color/'
+path_prefix = 'images/'
 gen = Generator(gt, bbox_util, 16, path_prefix,
                 train_keys, val_keys,
                 (input_shape[0], input_shape[1]), do_crop=False)
