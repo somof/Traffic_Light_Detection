@@ -9,4 +9,4 @@ gt:
 	$(PYTHON2) gt_format.py
 
 extract_images:
-	$(PYTHON2) bag_to_images.py bag/just_traffic_light.bag Pictures /current_pose
+	$(PYTHON2) bag_to_images.py bag/just_traffic_light.bag ssd/images /current_pose
