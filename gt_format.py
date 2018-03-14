@@ -43,7 +43,7 @@ class txt2pkl(object):
 
     def _to_one_hot(self, classno):
         """
-        uint8 UNKNOWN=4
+        uint8 UNKNOWN=4 -> delete
         uint8 GREEN=2
         uint8 YELLOW=1
         uint8 RED=0
@@ -60,14 +60,14 @@ class txt2pkl(object):
             one_hot_vector[1] = 1
         elif classno == 2:
             one_hot_vector[2] = 1
-        elif classno == 4:
-            one_hot_vector[3] = 1
+        #elif classno == 4:
+        #    one_hot_vector[3] = 1
         else:
             print('unknown classno: %d' % classno)
         return one_hot_vector
 
 
-data = txt2pkl("anno_color_train.txt").data
+data = txt2pkl("anno_color_train_3.txt").data
 #print(data)
 import pickle
-pickle.dump(data, open('TLD201803-4.p','wb'), protocol=2)
+pickle.dump(data, open('TLD201803-3.p','wb'), protocol=2)
