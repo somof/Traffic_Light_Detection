@@ -1,14 +1,14 @@
 PYTHON = ~/.pyenv/versions/2.7.12/bin/python
 PIP = ~/.pyenv/versions/2.7.12/bin/pip
 
-PYTHON = ~/.pyenv/versions/3.6.4/bin/python
-PIP = ~/.pyenv/versions/3.6.4/bin/pip
+PYTHONC = ~/.pyenv/versions/3.6.4/bin/python
+PIPC = ~/.pyenv/versions/3.6.4/bin/pip
 
 PYTHON = env LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ~/.pyenv/versions/2.7.12/bin/python
 
 all: 
 	@#$(PYTHON) run_ssd.py
-	$(PYTHON) SSD_infer.py
+	$(PYTHONC) SSD_infer.py
 
 train:
 	$(PYTHON) SSD_train.py

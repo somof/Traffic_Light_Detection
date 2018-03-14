@@ -43,10 +43,11 @@ input_shape = (300, 300, 3)
 priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
-with open('TLD201803-4.p', 'rb') as f:
-   u = pickle._Unpickler(f)
-   u.encoding = 'latin1'
-   gt = u.load()
+gt = pickle.load(open('TLD201803-4.p', 'rb'))
+#with open('TLD201803-4.p', 'rb') as f:
+#   u = pickle._Unpickler(f)
+#   u.encoding = 'latin1'
+#   gt = u.load()
 
 keys = sorted(gt.keys())
 shuffle(keys)
@@ -272,7 +273,7 @@ callbacks = [keras.callbacks.ModelCheckpoint('./checkpoints/weights.{epoch:02d}-
              keras.callbacks.LearningRateScheduler(schedule)]
 
 
-base_lr = 3e-4
+base_lr = 3e-3
 optim = keras.optimizers.Adam(lr=base_lr)
 # optim = keras.optimizers.RMSprop(lr=base_lr)
 # optim = keras.optimizers.SGD(lr=base_lr, momentum=0.9, decay=decay, nesterov=True)
