@@ -23,8 +23,8 @@ class txt2pkl(object):
                 ymin = float(row[4]) / self.HEIGHT
                 #xmax = float(row[5]) / self.WIDTH
                 #ymax = float(row[6]) / self.HEIGHT
-                xmax = float(row[3] + row[5]) / self.WIDTH
-                ymax = float(row[4] + row[6]) / self.HEIGHT
+                xmax = (float(row[3]) + float(row[5])) / self.WIDTH
+                ymax = (float(row[4]) + float(row[6])) / self.HEIGHT
                 # print row[0], row[1], xmin, ymin, xmax, ymax
 
                 bounding_boxes = []
