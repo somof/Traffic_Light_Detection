@@ -26,9 +26,35 @@ This code was tested with
 
 # annotation data
 
+    opencv_annotation -i=/to/images/folder -a=annotation.txt
     python gt_format.py
 
 # training
 
     cd ssd
 	python SSD_train.py
+
+
+# TLD documentation
+
+## Traffic Light detection
+
+This
+
+## Dataset for Traffic Light detection
+
+
+Traffic Light detection
+
+# SSD for Traffic Light Detection
+
+For more details, please refer to 
+
+- [SSD: Single Shot MultiBox Detector](https://github.com/weiliu89/caffe/tree/ssd)
+- [arXiv paper](http://arxiv.org/abs/1512.02325).
+
+
+
+<!-- ### Traffic Light Recognition -->
+<!-- ### Traffic Light Classification -->
+
