@@ -7,7 +7,10 @@ PIPC = ~/.pyenv/versions/3.6.4/bin/pip
 PYTHON = env LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ~/.pyenv/versions/2.7.12/bin/python
 
 all: 
-	$(PYTHONC) SSD_infer.py
+	$(PYTHON) infer.py
+
+infer:
+	$(PYTHON) SSD_infer.py
 
 train:
 	$(PYTHON) SSD_train.py
