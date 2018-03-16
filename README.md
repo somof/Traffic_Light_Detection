@@ -37,12 +37,54 @@ This code was tested with
 
 # TLD documentation
 
-## Traffic Light detection
+## Traffic Light Detection
 
-This
+The traffic light detection node is responsible for selecting next waypoionts for upcoming traffic signals and stop lines.
+In addition, it needs to classify the traffic signal's state like red, green, yellow or unknow.
 
-## Dataset for Traffic Light detection
+input
+sub1 = rospy.Subscriber('/current_pose',
+    PoseStamped,
+    self.pose_cb -> get msg
 
+sub2 = rospy.Subscriber('/base_waypoints',
+    Lane,
+    self.waypoints_cb -> get waypoints and psitions
+
+sub3 = rospy.Subscriber('/vehicle/traffic_lights',
+    TrafficLightArray,
+    self.traffic_cb ->  get msg.lights
+
+sub6 = rospy.Subscriber('/image_color',
+    Image,
+    self.image_cb
+
+publish
+    self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
+
+image_cb()
+    control behavir about traffic light state and position
+
+
+process_traffic_lights()
+    if find visible traffic light , classify it
+
+### Traffic Light Recognition
+
+### Traffic Light Classification
+Once the traffic light detection node finds upcoming visible traffic lights,
+it calls a classification method in Traffic Light Classification class (TLClassifier).
+This method has a camera image from ROS messages as its input and returns the current color state of the traffic lights.
+
+The method needs to detect traffic light areas in the image, and classify the state.
+DeepLearning is a successful technique to accomplish the two 
+
+classify
+
+and detects traffic light areas and thier state as 
+
+
+#### Dataset for Traffic Light detection
 
 Traffic Light detection
 
