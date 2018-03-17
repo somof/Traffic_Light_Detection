@@ -26,77 +26,36 @@ This code was tested with
 
 # annotation data
 
+I used to input bounding boxes with opencv_annotation
+
     opencv_annotation -i=/to/images/folder -a=annotation.txt
+
+then added classno every lines like this:
+
+    frame000000.png 2 1 642 409 27 68
+    ...
+
+formated as 'image-file-basename classno  1 boundingbox-xmin ymin width height'
+'1' means this line has one rectangle (= 4 integers)
+
+Then convert the text file to pickle format version 2 for python2.7 required by the project.
+
     python gt_format.py
+
+see gt_format.py and edit your input/output file.
+
 
 # training
 
+copy your pickle file into ssd folder and train.
+
     cd ssd
+
+edit SSD_train.py line 40 with your pickle file.
+If need, you also need to edit your image folder at line 241.
+
+run a training script
+
 	python SSD_train.py
 
-
-# TLD documentation
-
-## Traffic Light Detection
-
-The traffic light detection node is responsible for selecting next waypoionts for upcoming traffic signals and stop lines.
-In addition, it needs to classify the traffic signal's state like red, green, yellow or unknow.
-
-input
-sub1 = rospy.Subscriber('/current_pose',
-    PoseStamped,
-    self.pose_cb -> get msg
-
-sub2 = rospy.Subscriber('/base_waypoints',
-    Lane,
-    self.waypoints_cb -> get waypoints and psitions
-
-sub3 = rospy.Subscriber('/vehicle/traffic_lights',
-    TrafficLightArray,
-    self.traffic_cb ->  get msg.lights
-
-sub6 = rospy.Subscriber('/image_color',
-    Image,
-    self.image_cb
-
-publish
-    self.upcoming_red_light_pub = rospy.Publisher('/traffic_waypoint', Int32, queue_size=1)
-
-image_cb()
-    control behavir about traffic light state and position
-
-
-process_traffic_lights()
-    if find visible traffic light , classify it
-
-### Traffic Light Recognition
-
-### Traffic Light Classification
-Once the traffic light detection node finds upcoming visible traffic lights,
-it calls a classification method in Traffic Light Classification class (TLClassifier).
-This method has a camera image from ROS messages as its input and returns the current color state of the traffic lights.
-
-The method needs to detect traffic light areas in the image, and classify the state.
-DeepLearning is a successful technique to accomplish the two 
-
-classify
-
-and detects traffic light areas and thier state as 
-
-
-#### Dataset for Traffic Light detection
-
-Traffic Light detection
-
-# SSD for Traffic Light Detection
-
-For more details, please refer to 
-
-- [SSD: Single Shot MultiBox Detector](https://github.com/weiliu89/caffe/tree/ssd)
-- [arXiv paper](http://arxiv.org/abs/1512.02325).
-
-
-
-<!-- ### Traffic Light Recognition -->
-<!-- ### Traffic Light Classification -->
-
+you can get new checkout files in checkpoints/ folder.
