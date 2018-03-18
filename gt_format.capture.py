@@ -31,13 +31,23 @@ class txt2pkl(object):
 
                 if xmin <= 0 or ymin <= 0 or xmax <= 0 or ymax <= 0:
                     continue
-                if xmin <= 0.05 or ymin <= 0.05:
+                if xmin <= 0.025 or ymin <= 0.025:
+                    continue
+                if xmax >= 0.975 or ymax >= 0.975:
                     continue
 
                 width = xmax - xmin
                 height = ymax - ymin
-                if width <= 0.25 or height <= 0.15:
+                # if width <= 0.25 or height <= 0.15:
+                if height <= 0.17:
                     continue
+
+                width = height * 0.37
+                xmin = xmax - width
+                xmin -= 0.05 * width
+                xmax += 0.05 * height
+                ymin -= 0.05 * width
+                ymax += 0.05 * height
 
                 bounding_boxes = []
                 bounding_box = [xmin, ymin, xmax, ymax]
@@ -82,4 +92,4 @@ class txt2pkl(object):
 data = txt2pkl("anno_capture_train.txt").data
 #print(data)
 import pickle
-pickle.dump(data, open('TLD201803-3-capture.p','wb'), protocol=2)
+pickle.dump(data, open('TLD201803-3-capture-2.p','wb'), protocol=2)
