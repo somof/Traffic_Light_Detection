@@ -74,9 +74,16 @@ process_traffic_lights()
 ### Traffic Light Classification
 Once the traffic light detection node finds upcoming visible traffic lights,
 it calls a classification method in Traffic Light Classification class (TLClassifier).
-This method has a camera image from ROS messages as its input and returns the current color state of the traffic lights.
+This method has a camera image argument for input from ROS messages and returns the current color state of the traffic lights.
 
-The method needs to detect traffic light areas in the image, and classify the state.
+To recognize the color state, the method detects the traffic light area in the image and classifies with its signal color state at once with a DeepLearning technique called 'Single Shot MultiBox Detector',
+
+
+
+
+two funtions are needed
+
+
 DeepLearning is a successful technique to accomplish the two 
 
 classify
