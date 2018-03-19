@@ -1,3 +1,8 @@
 trash/
 ssd/images
 ssd/images.sim
+bag/
+*.mp4
+ssd/parkinglot/
+bag_image_exporter.launch
+export1.launch
