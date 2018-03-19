@@ -4,6 +4,7 @@ from scipy.misc import imread
 
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 from tl_classifier import TLClassifier
 
@@ -16,9 +17,10 @@ if __name__ == '__main__':
 
     #fig, ax = plt.subplots(1, 1)
     plt.ion()
-    ax = plt.subplot()
+    fig, ax = plt.subplots()
+    #ims = []
 
-    for i in range(0, 710, 2):
+    for i in range(50, 710, 1):
         inputs = []
         images = []
         img_path = 'images/frame000{:03d}.png'.format(i)
@@ -32,7 +34,7 @@ if __name__ == '__main__':
         label, score, top_xmin, top_ymin, top_xmax, top_ymax = light_classifier.get_classification(img)
     
         display_txt = '{:0.2f}, {}'.format(score, label)
-        print(label, display_txt)
+        #print(label, display_txt)
 
         ax.cla()
         plt.imshow(img / 255.)
@@ -50,7 +52,10 @@ if __name__ == '__main__':
             currentAxis.add_patch(plt.Rectangle(*coords, fill=False, edgecolor=color, linewidth=2))
             currentAxis.text(xmin, ymin, display_txt, bbox={'facecolor':color, 'alpha':0.5})
 
+#            ims.append[currentAxis]
+
             #plt.show()
             plt.draw()
             plt.pause(0.01)
 
+#        anim = ArtistAnimation(fig, artists, interval=1000)

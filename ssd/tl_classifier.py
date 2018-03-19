@@ -26,14 +26,16 @@ class TLClassifier(object):
         self.stop_line_positions = self.config['stop_line_positions']
 
         # get path to resources
-        path_to_resources = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tlc')
+        #path_to_resources = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tlc')
         # "prior boxes" in the paper
-        priors = pickle.load(open(os.path.join(path_to_resources, 'prior_boxes_ssd300.pkl'), 'rb'))
+        #priors = pickle.load(open(os.path.join(path_to_resources, 'prior_boxes_ssd300.pkl'), 'rb'))
+        priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
         self.bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
         # Traffic Light Classifier model and its weights
         self.model = SSD300(input_shape, num_classes=NUM_CLASSES)
-        self.model.load_weights(os.path.join(path_to_resources, self.config['classifier_weights_file']), by_name=True)
+        #self.model.load_weights(os.path.join(path_to_resources, self.config['classifier_weights_file']), by_name=True)
+        self.model.load_weights('weights.180314.hdf5', by_name=True)
 
         # prevent TensorFlow's ValueError when no raised backend
         dummy = np.zeros((1, 300, 300, 3))
@@ -81,26 +83,42 @@ class TLClassifier(object):
 
         det_label = results[0][:, 0]
         det_conf = results[0][:, 1]
+        det_xmin = results[0][:, 2]
+        det_ymin = results[0][:, 3]
+        det_xmax = results[0][:, 4]
+        det_ymax = results[0][:, 5]
 
         # Get detections with confidence >= 0.8
         top_indices = [j for j, conf in enumerate(det_conf) if conf >= 0.8]
         top_label_indices = det_label[top_indices].tolist()
 
+        if top_label_indices == []:
+            return TrafficLight.UNKNOWN, 0, 0, 0, 0, 0
+        top_conf = det_conf[top_indices]
+
+        top_xmin = det_xmin[top_indices][0]
+        top_ymin = det_ymin[top_indices][0]
+        top_xmax = det_xmax[top_indices][0]
+        top_ymax = det_ymax[top_indices][0]
+        score = top_conf[0]
+
         # return the first signal detected
         if top_label_indices == []:
-            self.last_result = TrafficLight.UNKNOWN
+            self.last_result = TrafficLight.UNKNOWN, 0, 0, 0, 0, 0
             self.is_in_progress = False
             return self.last_result
         label = int(top_label_indices[0])
         #print "Found label " + str(label) + " at " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        if label == 1:
-            self.last_result = TrafficLight.RED
+        if label == 0:
+            return TrafficLight.UNKNOWN, 0, 0, 0, 0, 0
+        elif label == 1:
+            return TrafficLight.RED, score, top_xmin, top_ymin, top_xmax, top_ymax
         elif label == 2:
-            self.last_result = TrafficLight.YELLOW
+            return TrafficLight.YELLOW, score, top_xmin, top_ymin, top_xmax, top_ymax
         elif label == 3:
-            self.last_result = TrafficLight.GREEN
+            return TrafficLight.GREEN, score, top_xmin, top_ymin, top_xmax, top_ymax
         else:
-            self.last_result = TrafficLight.UNKNOWN
+            return TrafficLight.UNKNOWN, score, top_xmin, top_ymin, top_xmax, top_ymax
 
         self.is_in_progress = False
         return self.last_result

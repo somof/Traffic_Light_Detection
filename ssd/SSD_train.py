@@ -37,7 +37,7 @@ priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
 # ground truth
-gt = pickle.load(open('TLD201803-3.p', 'rb'))
+gt = pickle.load(open('TLD201803-3calra_2.p', 'rb'))
 #with open('TLD201803-3.p', 'rb') as f:
 #   u = pickle._Unpickler(f)
 #   u.encoding = 'latin1'
