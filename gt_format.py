@@ -70,4 +70,4 @@ class txt2pkl(object):
 data = txt2pkl("anno_color_train_3_2.txt").data
 #print(data)
 import pickle
-pickle.dump(data, open('TLD20180319-3-site.p','wb'), protocol=2)
+pickle.dump(data, open('ssd/TLD20180319-3-site.p','wb'), protocol=2)

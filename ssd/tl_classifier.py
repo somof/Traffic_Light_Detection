@@ -11,19 +11,26 @@ from ssd import SSD300
 from ssd_utils import BBoxUtility
 
 # from styx_msgs.msg import TrafficLight
-import os
-import datetime
-import rospy
-import yaml
+#import os
+#import datetime
+#import rospy
+#import yaml
+
+class TrafficLight(object):
+    # Pseudo-constants
+    UNKNOWN = 4
+    GREEN = 2
+    YELLOW = 1
+    RED = 0
 
 class TLClassifier(object):
     def __init__(self):
         NUM_CLASSES = 3 + 1
         input_shape = (300, 300, 3)
 
-        config_string = rospy.get_param("/traffic_light_config")
-        self.config = yaml.load(config_string)
-        self.stop_line_positions = self.config['stop_line_positions']
+        #config_string = rospy.get_param("/traffic_light_config")
+        #self.config = yaml.load(config_string)
+        #self.stop_line_positions = self.config['stop_line_positions']
 
         # get path to resources
         #path_to_resources = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', 'tlc')
@@ -35,7 +42,8 @@ class TLClassifier(object):
         # Traffic Light Classifier model and its weights
         self.model = SSD300(input_shape, num_classes=NUM_CLASSES)
         #self.model.load_weights(os.path.join(path_to_resources, self.config['classifier_weights_file']), by_name=True)
-        self.model.load_weights('weights.180314.hdf5', by_name=True)
+        #self.model.load_weights('weights.180314.hdf5', by_name=True)
+        self.model.load_weights('checkpoints/weights.07-0.70.hdf5', by_name=True)
 
         # prevent TensorFlow's ValueError when no raised backend
         dummy = np.zeros((1, 300, 300, 3))
@@ -61,9 +69,9 @@ class TLClassifier(object):
             int: ID of traffic light color (specified in styx_msgs/TrafficLight)
         """
 
-        if self.is_in_progress:
-            return self.last_result
-        self.is_in_progress = True
+        #if self.is_in_progress:
+        #    return self.last_result, 0, 0, 0, 0, 0
+        #self.is_in_progress = True
 
         # adjust img arg for the model
         pilImg = Image.fromarray(np.uint8(img)).resize((300, 300))
@@ -79,7 +87,7 @@ class TLClassifier(object):
         if results == None or results == [] or results == [[]]:
             self.last_result = TrafficLight.UNKNOWN
             self.is_in_progress = False
-            return self.last_result
+            return self.last_result, 0, 0, 0, 0, 0
 
         det_label = results[0][:, 0]
         det_conf = results[0][:, 1]
@@ -88,8 +96,8 @@ class TLClassifier(object):
         det_xmax = results[0][:, 4]
         det_ymax = results[0][:, 5]
 
-        # Get detections with confidence >= 0.8
-        top_indices = [j for j, conf in enumerate(det_conf) if conf >= 0.8]
+        # Get detections
+        top_indices = [j for j, conf in enumerate(det_conf) if conf >= 0.6]
         top_label_indices = det_label[top_indices].tolist()
 
         if top_label_indices == []:
@@ -106,7 +114,7 @@ class TLClassifier(object):
         if top_label_indices == []:
             self.last_result = TrafficLight.UNKNOWN, 0, 0, 0, 0, 0
             self.is_in_progress = False
-            return self.last_result
+            return self.last_result, 0, 0, 0, 0, 0
         label = int(top_label_indices[0])
         #print "Found label " + str(label) + " at " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if label == 0:
@@ -121,4 +129,4 @@ class TLClassifier(object):
             return TrafficLight.UNKNOWN, score, top_xmin, top_ymin, top_xmax, top_ymax
 
         self.is_in_progress = False
-        return self.last_result
+        return self.last_result, 0, 0, 0, 0, 0

@@ -37,7 +37,7 @@ priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
 # ground truth
-gt = pickle.load(open('TLD201803-3calra_2.p', 'rb'))
+gt = pickle.load(open('TLD20180319-3-site.p', 'rb'))
 #with open('TLD201803-3.p', 'rb') as f:
 #   u = pickle._Unpickler(f)
 #   u.encoding = 'latin1'
@@ -242,13 +242,17 @@ path_prefix = 'images/'
 gen = Generator(gt, bbox_util, 16, path_prefix,
                 train_keys, val_keys,
                 (input_shape[0], input_shape[1]),
-                 saturation_var=0.0,
-                 brightness_var=0.0,
-                 contrast_var=0.0,
-                 lighting_std=0.0,
-                 hflip_prob=0.0,
-                 vflip_prob=0.0,
-                    do_crop=False)
+                 saturation_var=0.05,
+                 brightness_var=0.05,
+                 contrast_var=0.05,
+                 lighting_std=0.05,
+                 hflip_prob=0.5,
+                 vflip_prob=0.5,
+                 do_crop=False,
+                 #do_crop=True,
+                 #crop_area_range=[1.0, 1.05],
+                 #aspect_ratio_range=[0.95, 1.05]
+                    )
 
 model = SSD300(input_shape, num_classes=NUM_CLASSES)
 #model.load_weights('weights_05.hdf5', by_name=True)

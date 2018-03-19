@@ -8,5 +8,9 @@ all: gt
 gt:
 	$(PYTHON2) gt_format.py
 
+view:
+	$(PYTHON2) view_pickle.py
+
 extract_images:
-	$(PYTHON2) bag_to_images.py bag/just_traffic_light.bag ssd/images /current_pose
+	$(PYTHON2) bag_to_images.py bag/loop_with_traffic_light.bag parkinglot /image_raw
+	#$(PYTHON2) bag_to_images.py bag/just_traffic_light.bag ssd/images /image_raw
