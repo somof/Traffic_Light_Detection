@@ -8,6 +8,7 @@ PYTHON = env LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ~/.pyenv/versions/2.7.12/
 
 all: 
 	$(PYTHONC) infer.py
+	ffmpeg -r 30 -i predict/res%06d.png -vcodec libx264 -pix_fmt yuv420p -r 60 ../ssd_video_epoch70sup5.mp4
 
 infer:
 	$(PYTHON) SSD_infer.py
@@ -16,7 +17,8 @@ train:
 	$(PYTHON) SSD_train.py
 
 view:
-	$(PYTHON) view_pickle.py
+	$(PYTHONC) view.supp.py
+	#$(PYTHON) view_pickle.py
 
 install:
 	cat install_package.txt | xargs $(PIP) install

@@ -37,7 +37,7 @@ priors = pickle.load(open('prior_boxes_ssd300.pkl', 'rb'))
 bbox_util = BBoxUtility(NUM_CLASSES, priors)
 
 # ground truth
-gt = pickle.load(open('TLD20180319-3-site.p', 'rb'))
+gt = pickle.load(open('TLD20180320-3-supp.p', 'rb'))
 #with open('TLD201803-3.p', 'rb') as f:
 #   u = pickle._Unpickler(f)
 #   u.encoding = 'latin1'
@@ -255,7 +255,7 @@ gen = Generator(gt, bbox_util, 16, path_prefix,
                     )
 
 model = SSD300(input_shape, num_classes=NUM_CLASSES)
-#model.load_weights('weights_05.hdf5', by_name=True)
+model.load_weights('weights.supp19.72-0.78.hdf5', by_name=True)
 freeze = ['input_1', 'conv1_1', 'conv1_2', 'pool1',
           'conv2_1', 'conv2_2', 'pool2',
           'conv3_1', 'conv3_2', 'conv3_3', 'pool3']

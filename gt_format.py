@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 import csv
 
@@ -26,6 +27,10 @@ class txt2pkl(object):
                 xmax = (float(row[3]) + float(row[5])) / self.WIDTH
                 ymax = (float(row[4]) + float(row[6])) / self.HEIGHT
                 # print row[0], row[1], xmin, ymin, xmax, ymax
+
+                #width = xmax - xmin
+                #height = width / 0.33
+                #ymax = ymin + height
 
                 bounding_boxes = []
                 bounding_box = [xmin, ymin, xmax, ymax]
@@ -67,7 +72,9 @@ class txt2pkl(object):
         return one_hot_vector
 
 
-data = txt2pkl("anno_color_train_3_2.txt").data
-#print(data)
-import pickle
-pickle.dump(data, open('ssd/TLD20180319-3-site.p','wb'), protocol=2)
+
+data = txt2pkl("anno_supplement_2.txt").data
+pickle.dump(data, open('ssd/TLD20180320-3-supp_test.p','wb'), protocol=2)
+
+#data = txt2pkl("anno_color_train_3_2.txt").data
+#pickle.dump(data, open('ssd/TLD20180319-3-site.p','wb'), protocol=2)
