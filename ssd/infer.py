@@ -47,32 +47,32 @@ if __name__ == '__main__':
         plt.imshow(img / 255.)
         currentAxis = plt.gca()
 
-        try:
-            rect = gt[img_basename]
-            #print(rect)
-            label = 4
-            if rect[0][4]:
-                label = 0
-            elif rect[0][5]:
-                label = 1
-            elif rect[0][6]:
-                label = 2
+        #try:
+        #    rect = gt[img_basename]
+        #    #print(rect)
+        #    label = 4
+        #    if rect[0][4]:
+        #        label = 0
+        #    elif rect[0][5]:
+        #        label = 1
+        #    elif rect[0][6]:
+        #        label = 2
 
-            if label != 4:
-                top_xmin = rect[0][0]
-                top_ymin = rect[0][1]
-                top_xmax = rect[0][2]
-                top_ymax = rect[0][3]
-                xmin = int(round(top_xmin * img.shape[1]))
-                ymin = int(round(top_ymin * img.shape[0]))
-                xmax = int(round(top_xmax * img.shape[1]))
-                ymax = int(round(top_ymax * img.shape[0]))
+        #    if label != 4:
+        #        top_xmin = rect[0][0]
+        #        top_ymin = rect[0][1]
+        #        top_xmax = rect[0][2]
+        #        top_ymax = rect[0][3]
+        #        xmin = int(round(top_xmin * img.shape[1]))
+        #        ymin = int(round(top_ymin * img.shape[0]))
+        #        xmax = int(round(top_xmax * img.shape[1]))
+        #        ymax = int(round(top_ymax * img.shape[0]))
 
-                coords = (xmin, ymin), xmax - xmin + 1, ymax - ymin + 1
-                color = tld_color[label]
-                currentAxis.add_patch(plt.Rectangle(*coords, fill=False, edgecolor=color, linewidth=1))
-        except:
-            pass
+        #        coords = (xmin, ymin), xmax - xmin + 1, ymax - ymin + 1
+        #        color = tld_color[label]
+        #        currentAxis.add_patch(plt.Rectangle(*coords, fill=False, edgecolor=color, linewidth=1))
+        #except:
+        #    pass
 
 
 
